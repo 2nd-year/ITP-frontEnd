@@ -78,6 +78,8 @@ export default function Timetable() {
         });
     };
 
+    
+
     return (
         <div className="p-26">
             <div class=" items-center justify-center min-h-screen bg-white">
@@ -242,7 +244,7 @@ export default function Timetable() {
                                                     />
                                                 ) : (
                                                     <span>
-                                                        {r.date}
+                                                        {r.date.split("T")[0]}
                                                     </span>
                                                 )}
                                             </td>
