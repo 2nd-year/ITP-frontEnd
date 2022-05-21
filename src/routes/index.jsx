@@ -34,6 +34,7 @@ import {
     UpdateExam,
     ExamStart,
     UpdateRequest,
+    StudentTimetableList,
     Dashboard,
 } from "../Pages";
 
@@ -173,7 +174,12 @@ export const PageRoute = () => {
                         <Route
                             path="/admin/event/update/:id"
                             element={<UpdateEvent />}
-                        />
+                            />
+                            <Route
+                            path="/studentTimetable"
+                            element={<StudentTimetableList />}
+                            />
+                        
                         <Route
                             path="/student/update/:id"
                             element={<UpdateStudent />}
