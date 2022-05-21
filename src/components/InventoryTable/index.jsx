@@ -2,11 +2,14 @@ import {
     EyeOutlined,
     EditOutlined,
     DeleteOutlined,
+    DownloadOutlined,
 } from "@ant-design/icons";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { format } from 'date-fns';
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 
 
 export default function Inventory() {
@@ -68,6 +71,27 @@ export default function Inventory() {
         });
     };
 
+    const columns = [
+        { title: "Item Name", field: "itemName" },
+        { title: "Date", field: "boughtDate" },
+        { title: "Quantity", field: "quantity" },
+        { title: "Price", field: "price" },
+        
+    ];
+
+    const downLoadPdf = () => {
+        const doc = new jsPDF();
+        doc.text(itemName + " Inventory Sheet", 20, 10);
+        doc.autoTable({
+            columns: columns.map((col) => ({
+                ...col,
+                dataKey: col.field,
+            })),
+            body: inventory,
+        });
+        doc.save(itemName + " Inventory Sheet");
+    };
+
     return (
         <div className="p-26">
             <div class=" items-center justify-center mb-10 bg-white">
@@ -91,6 +115,28 @@ export default function Inventory() {
                                         onClick={addInventory}>
                                         ADD INVENTORY
                                     </button>
+                        <div className="ml-96">
+                                    <button
+                                            className="bg-green-600
+                                            hover:bg-green-800
+                                            text-white
+                                            py-2
+                                            px-5
+                                            flex
+                                            sm
+                                            ml-96
+                                            outline-none
+                                            font-bold
+                                            rounded-full mb-3"
+                                            onClick={() => downLoadPdf()}>
+                                            <span>
+                                                <span>
+                                                    <DownloadOutlined className="font-bold" />{" "}
+                                                </span>
+                                                Download
+                                            </span>
+                                        </button>
+                                        </div>
                                 </div>
                             </div>
 
@@ -199,7 +245,7 @@ export default function Inventory() {
                                                     />
                                                 ) : (
                                                     <span>
-                                                        {r.boughtDate}
+                                                        {r.boughtDate.split("T")[0]}
                                                     </span>
                                                 )}
                                             </td>
